@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Unit Plan Portal</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="assets/components/materialize/css/materialize.min.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/css/common.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <header>
+            <ul id="slideOut" class="side-nav fixed">
+                <li>
+                    <div class="selections no-margin">
+                        <div class="selected-item avatar valign-wrapper invisible" id="builderName"></div>
+                        <div class="selected-item invisible" id="projectName"></div>
+                        <div class="selected-item invisible" id="unitName"></div>
+                    </div>
+                </li>
+                <li><ul class="collapsible no-margin" data-collapsible="accordion"></ul></li>
+            </ul>
+        </header>
+        <main>
+            <a class="btn-footer hide btn-2d-plan"><i class="material-icons">map</i></a>
+            <a class="btn-footer btn-1st-person"><i class="material-icons">3d_rotation</i></a>
+            <a class="btn-footer btn-fullscreen"><i class="material-icons">fullscreen</i></a>
+            <a class="btn-footer btn-fullscreen-exit hide"><i class="material-icons">fullscreen_exit</i></a>
+            <div class="row no-margin">
+                <div id="container" class="col s12 m12 l12 no-padding">
+                <div id="containerOverlay" class="containerOverLayStyle">
+                    <span>Loading...</span>
+                </div>
+                </div>
+            </div>
+        </main>
+		<!--<div id="sidenav-overlay" class="" style="opacity: 1;"></div>-->
+        <script type="x-shader/x-vertex" id="vertexShader">
+        varying vec3 vWorldPosition; void main() { vec4 worldPosition = modelMatrix * vec4( position, 1.0 ); vWorldPosition = worldPosition.xyz; gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 ); }
+    </script>
+
+    <script type="x-shader/x-fragment" id="fragmentShader">
+        uniform vec3 topColor; uniform vec3 bottomColor; uniform float offset; uniform float exponent; varying vec3 vWorldPosition; void main() { float h = normalize( vWorldPosition + offset ).y; gl_FragColor = vec4( mix( bottomColor, topColor, max( pow( max( h, 0.0 ), exponent ), 0.0 ) ), 1.0 ); }
+    </script>
+        
+        <script src="build/three.js"></script>
+    <script src="js/controls/OrbitControls.js"></script>
+    <script src="js/controls/PointerLockControls.js"></script>
+
+    <script src="js/Detector.js"></script>
+    <script src="js/libs/stats.min.js"></script>
+	
+	<script src="js/loaders/DDSLoader.js"></script>
+	<script src="js/loaders/MTLLoader.js"></script>
+	<script src="js/loaders/OBJLoader.js"></script>
+    
+    <script src="js/THREEx.FullScreen.js"></script>
+         
+        <script src="assets/components/jquery/jquery.min.js" type="text/javascript"></script>
+        <script src="assets/components/materialize/js/materialize.min.js" type="text/javascript"></script>
+        <script src="assets/data.js" type="text/javascript"></script>
+        <script src="DrawModel.js"></script>
+        <script src="assets/js/common.js" type="text/javascript"></script>
+    
+    
+   
+        
+        
+        <script>
+            $(document).ready(function(){
+                
+                //document.getElementById('containerOverlay').innerHTML= "<span>Loading next plan</span>";
+                //document.getElementById('containerOverlay').style.display = 'none';
+                //document.getElementById('containerOverlay').style.display = 'block';
+
+            var containerWidth = $('#container').width();
+            var containerHeight = $('#slideOut').height() + 10;
+            //var _drawModel = new DrawModel('container', 'model/unitplan/', 'Unitplan_online_portal', containerWidth, containerHeight);
+            });
+    </script>
+    </body>
+</html>
